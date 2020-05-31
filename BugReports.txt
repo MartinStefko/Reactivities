@@ -1,0 +1,5 @@
+1.) Problem: Cannot install new version of dotnet-ef with dotnet tool install --global dotnet-ef --> .error NU1202: Package dotnet-ef 3.1.4 is not compatible with netcoreapp3.0 (.NETCoreApp,Version=v3.0) / any. Package dotnet-ef 3.1.4 supports: netcoreapp3.1 (.NETCoreApp,Version=v3.1) / any
+    Solution: dotnet tool install --global dotnet-ef --version 3.0.0
+
+2.) Problem: Cannot run sqlite explorer on vscode, resulted in error [vscode-sqlite][ERROR] Unable to find a valid SQLite command. Fallback binary is not valid.
+    Solution: sudo apt install sqlite3
