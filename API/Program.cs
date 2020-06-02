@@ -27,6 +27,8 @@ namespace API
                     var context = services.GetRequiredService<DataContext>();
                     // this will add all unapplied migrations tot he database
                     context.Database.Migrate();
+                    // seed the db at the beggining of the application
+                    Seed.SeedData(context);
                 }
                 catch (Exception ex)
                 {
