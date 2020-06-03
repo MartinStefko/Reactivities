@@ -12,11 +12,17 @@ const App = () => {
   // activities is the state and setActivities is setting activities state
   const [activities, setActivities] = useState<IActivity[]>([])
   const [selectedActivity, setSelectedActivity] = useState<IActivity | null>(null)
+  const [editMode, setEditMode] = useState(false)
 
 
   const handleSelectActivity = (id: string) => {
     // filter evering where id =! requested id
     setSelectedActivity(activities.filter(a => a.id === id)[0])
+  }
+
+  const handleOpenCreateForm = () => {
+    setSelectedActivity(null)
+    setEditMode(true)
   }
 
   // useEffect is 3 lifecycle hooks in one
@@ -30,13 +36,17 @@ const App = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar openCreateForm={handleOpenCreateForm} />
       <Container style={{ marginTop: '7em' }}>
         {/* selectedActivity with ! will define it as IActivity | null when passed to another component object*/}
         <ActivityDashboard
           activities={activities}
           selectActivity={handleSelectActivity}
-          selectedActivity={selectedActivity} />
+          selectedActivity={selectedActivity}
+          editMode={editMode}
+          setEditMode={setEditMode}
+          setSelectedActivity={setSelectedActivity}
+        />
       </Container>
     </>
   );
