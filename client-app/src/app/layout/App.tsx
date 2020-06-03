@@ -1,48 +1,46 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Header, Icon, List } from 'semantic-ui-react'
+import { List, Container } from 'semantic-ui-react'
 import { IActivity } from '../models/activity'
+import NavBar from "../../features/nav/NavBar";
+import { ActivityDashboard } from "../../features/activities/dashboard/ActivityDashboard";
 
-interface IState {
-  activities: IActivity[]
-}
 
-class App extends Component<{}, IState> {
-  // readoonly is not necesary, as all typescript but it forces you to to use setState() method instead of accessing this.state directly which is insecure
-  readonly state: IState = {
-    activities: [],
 
+const App = () => {
+
+  // activities is the state and setActivities is setting activities state
+  const [activities, setActivities] = useState<IActivity[]>([])
+  const [selectedActivity, setSelectedActivity] = useState<IActivity | null>(null)
+
+
+  const handleSelectActivity = (id: string) => {
+    // filter evering where id =! requested id
+    setSelectedActivity(activities.filter(a => a.id === id)[0])
   }
 
-  componentDidMount() {
+  // useEffect is 3 lifecycle hooks in one
+  useEffect(() => {
     axios.get<IActivity[]>('http://localhost:5000/api/activities')
       .then((response) => {
-        this.setState({
-          activities: response.data
-        })
+        setActivities(response.data)
       })
-  }
+    // the empty parethesis at the end menas useEffect will run only once
+  }, [])
 
+  return (
+    <>
+      <NavBar />
+      <Container style={{ marginTop: '7em' }}>
+        {/* selectedActivity with ! will define it as IActivity | null when passed to another component object*/}
+        <ActivityDashboard
+          activities={activities}
+          selectActivity={handleSelectActivity}
+          selectedActivity={selectedActivity} />
+      </Container>
+    </>
+  );
 
-  render() {
-    return (
-      <div >
-        <Header as='h2'>
-          <Icon name='users' />
-        </Header>
-        <List>
-          {/* any can lead to errors, which will be not catched by typescript compiler, so it is best practice not to use it */}
-          {/* i can remove now activity: any and just let it be activity,typescript will recognise activity is type of IActivity */}
-          {/* fun if there was no typescript, acivity.name compiled just right, but in fact it is not exisitng in the state or IState */}
-
-          {this.state.activities.map((activity) => (
-            <List.Item key={activity.id} >{activity.title}</List.Item>
-          ))}
-        </List>
-
-      </div>
-    );
-  }
 
 };
 
