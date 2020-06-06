@@ -1,6 +1,7 @@
 import React, { SyntheticEvent } from 'react'
 import { Item, Label, Button, Segment } from 'semantic-ui-react'
 import { IActivity } from '../../../app/models/activity'
+import { observer } from 'mobx-react-lite'
 
 interface IProps {
     activities: IActivity[]
@@ -11,7 +12,7 @@ interface IProps {
 
 }
 
-export const ActivityList: React.FC<IProps> = ({ activities, selectActivity, deleteActivity, submitting, target }) => {
+const ActivityList: React.FC<IProps> = ({ activities, selectActivity, deleteActivity, submitting, target }) => {
     return (
         // segment clearing will clear each floting content
         <Segment clearing>
@@ -50,3 +51,5 @@ export const ActivityList: React.FC<IProps> = ({ activities, selectActivity, del
 
     )
 }
+
+export default observer(ActivityList)

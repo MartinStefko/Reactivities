@@ -1,15 +1,18 @@
-import React, { useState, useEffect, SyntheticEvent } from "react";
+import React, { useState, useEffect, SyntheticEvent, useContext } from "react"
 import { Container } from 'semantic-ui-react'
 import { IActivity } from '../models/activity'
-import NavBar from "../../features/nav/NavBar";
-import { ActivityDashboard } from "../../features/activities/dashboard/ActivityDashboard";
-import agent from "./api/agent";
-import LoadingComponent from "./LoadingComponent";
+import NavBar from "../../features/nav/NavBar"
+import { ActivityDashboard } from "../../features/activities/dashboard/ActivityDashboard"
+import agent from "./api/agent"
+import LoadingComponent from "./LoadingComponent"
+import ActivityStore from '../stores/activityStore'
+import { observer } from 'mobx-react-lite'
 
 
 
 const App = () => {
 
+  const activityStore = useContext(ActivityStore)
   // activities is the state and setActivities is setting activities state
   const [activities, setActivities] = useState<IActivity[]>([])
   const [selectedActivity, setSelectedActivity] = useState<IActivity | null>(null)
@@ -62,19 +65,11 @@ const App = () => {
 
   // useEffect is 3 lifecycle hooks in one
   useEffect(() => {
-    agent.Activities.list()
-      .then((response) => {
-        let activities: IActivity[] = []
-        response.forEach(activity => {
-          activity.date = activity.date.split('.')[0]
-          activities.push(activity)
-        })
-        setActivities(activities)
-      }).then(() => setLoading(false))
-    // the empty parethesis at the end menas useEffect will run only once
-  }, [])
+    activityStore.loadActivities()
+    // to make useEffect to know about activityStore it has to be passed into seond argument (as bellow)
+  }, [activityStore])
 
-  if (loading) return <LoadingComponent content='Loading activities...' />
+  if (activityStore.loadingInitial) return <LoadingComponent content='Loading activities...' />
 
   return (
     <>
@@ -82,7 +77,7 @@ const App = () => {
       <Container style={{ marginTop: '7em' }}>
         {/* selectedActivity with ! will define it as IActivity | null when passed to another component object*/}
         <ActivityDashboard
-          activities={activities}
+          activities={activityStore.activities}
           selectActivity={handleSelectActivity}
           selectedActivity={selectedActivity}
           editMode={editMode}
@@ -104,6 +99,6 @@ const App = () => {
 
 
 
-
-export default App
+// make the App observer of activityStore -> or more generally Stores
+export default observer(App)
 
