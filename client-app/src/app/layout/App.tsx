@@ -2,7 +2,7 @@ import React, { useState, useEffect, SyntheticEvent, useContext } from "react"
 import { Container } from 'semantic-ui-react'
 import { IActivity } from '../models/activity'
 import NavBar from "../../features/nav/NavBar"
-import { ActivityDashboard } from "../../features/activities/dashboard/ActivityDashboard"
+import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard"
 import agent from "./api/agent"
 import LoadingComponent from "./LoadingComponent"
 import ActivityStore from '../stores/activityStore'

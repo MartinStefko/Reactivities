@@ -1,7 +1,7 @@
 import React, { SyntheticEvent } from 'react'
 import { Grid } from 'semantic-ui-react'
 import { IActivity } from '../../../app/models/activity'
-import { ActivityList } from './ActivityList'
+import ActivityList from './ActivityList'
 import { ActivityDetails } from '../ActivityDetails.tsx/ActivityDetails'
 import { ActivityForm } from '../form/ActivityForm'
 import { observer } from 'mobx-react-lite'
