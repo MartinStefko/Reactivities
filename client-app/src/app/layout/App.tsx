@@ -22,27 +22,8 @@ const App = () => {
   const [target, setTarget] = useState('')
 
 
-  const handleSelectActivity = (id: string) => {
-    // filter evering where id =! requested id
-    setSelectedActivity(activities.filter(a => a.id === id)[0])
-    setEditMode(false)
-  }
 
-  const handleOpenCreateForm = () => {
-    setSelectedActivity(null)
-    setEditMode(true)
-  }
 
-  // take entire activites array and push new activity to it
-  const handleCreateActivity = (activity: IActivity) => {
-    setSubmitting(true)
-    agent.Activities.create(activity).then(() => {
-      setActivities([...activities, activity])
-      setSelectedActivity(activity)
-      setEditMode(false)
-    }).then(() => setSubmitting(false))
-
-  }
 
   const handleEditActivity = (activity: IActivity) => {
     setSubmitting(true)
@@ -71,19 +52,15 @@ const App = () => {
 
   if (activityStore.loadingInitial) return <LoadingComponent content='Loading activities...' />
 
+
   return (
     <>
-      <NavBar openCreateForm={handleOpenCreateForm} />
+      <NavBar />
       <Container style={{ marginTop: '7em' }}>
         {/* selectedActivity with ! will define it as IActivity | null when passed to another component object*/}
         <ActivityDashboard
-          activities={activityStore.activities}
-          selectActivity={handleSelectActivity}
-          selectedActivity={selectedActivity}
-          editMode={editMode}
           setEditMode={setEditMode}
           setSelectedActivity={setSelectedActivity}
-          createActivity={handleCreateActivity}
           editActivity={handleEditActivity}
           deleteActivity={handleDeleteActivity}
           submitting={submitting}
