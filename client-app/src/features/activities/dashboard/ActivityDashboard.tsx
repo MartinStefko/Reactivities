@@ -1,37 +1,32 @@
-import React, { useContext } from 'react'
-import { Grid } from 'semantic-ui-react'
-import ActivityList from './ActivityList'
-import ActivityDetails from '../ActivityDetails.tsx/ActivityDetails'
-import { ActivityForm } from '../form/ActivityForm'
-import { observer } from 'mobx-react-lite'
-import ActivityStore from '../../../app/stores/activityStore'
+import React, { useEffect, useContext } from "react";
+import { Grid } from "semantic-ui-react";
+import ActivityList from "./ActivityList";
+import ActivityStore from "../../../app/stores/activityStore";
 
+import { observer } from "mobx-react-lite";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
 
 const ActivityDashboard: React.FC = () => {
-    const activityStore = useContext(ActivityStore)
-    const { editMode, selectedActivity } = activityStore
+  const activityStore = useContext(ActivityStore);
 
-    return (
-        <Grid>
-            <Grid.Column width={10}>
-                <ActivityList
-                />
-            </Grid.Column>
-            <Grid.Column width={6}>
-                {/* only showing Activity details if there is one selected */}
-                {selectedActivity && !editMode &&
-                    <ActivityDetails />
-                }
-                {editMode &&
-                    <ActivityForm
-                        key={selectedActivity && selectedActivity.id || 0}
-                        activity={selectedActivity!}
+  // useEffect is 3 lifecycle hooks in one
+  useEffect(() => {
+    activityStore.loadActivities();
+    // to make useEffect to know about activityStore it has to be passed into seond argument (as bellow)
+  }, [activityStore]);
 
-                    />}
-            </Grid.Column>
-        </Grid>
-    )
-}
+  if (activityStore.loadingInitial)
+    return <LoadingComponent content="Loading activities..." />;
 
-export default observer(ActivityDashboard)
+  return (
+    <Grid>
+      <Grid.Column width={10}>
+        <ActivityList />
+      </Grid.Column>
+      <h2>Activity filters</h2>
+      <Grid.Column width={6}></Grid.Column>
+    </Grid>
+  );
+};
 
+export default observer(ActivityDashboard);
