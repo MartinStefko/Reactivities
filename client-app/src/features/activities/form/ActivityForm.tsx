@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Segment, Form, Button, Grid } from "semantic-ui-react";
-import { IActivityFormValues } from "../../../app/models/activity";
-import { v4 as uuid } from "uuid";
+import { ActivityFormValues } from "../../../app/models/activity";
 import ActivityStore from "../../../app/stores/activityStore";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router-dom";
@@ -29,36 +28,21 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     clearActivity,
   } = activityStore;
 
-  const [activity, setActivity] = useState<IActivityFormValues>({
-    id: undefined,
-    title: "",
-    category: "",
-    description: "",
-    date: undefined,
-    time: undefined,
-    city: "",
-    venue: "",
-  });
+  const [activity, setActivity] = useState(new ActivityFormValues());
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     //   preventing 2 loadActivity calls with second filter
-    if (match.params.id && activity.id) {
-      loadActivity(match.params.id).then(
-        // set the state of activity to initialFormState asnchronosly, even if page refreshes
-        () => initialFormState && setActivity(initialFormState)
-      );
+    if (match.params.id) {
+      setLoading(true);
+      loadActivity(match.params.id)
+        .then(
+          // set the state of activity to initialFormState asnchronosly, even if page refreshes
+          (activity) => setActivity(new ActivityFormValues(activity))
+        )
+        .finally(() => setLoading(false));
     }
-    // do cleanup
-    return () => {
-      clearActivity();
-    };
-  }, [
-    loadActivity,
-    clearActivity,
-    match.params.id,
-    initialFormState,
-    activity.id,
-  ]);
+  }, [loadActivity, match.params.id]);
 
   const handleFinalFormSubmit = (values: any) => {
     const dateAndTime = combineDateAndTime(values.date, values.time);
@@ -91,9 +75,11 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
       <Grid.Column width={10}>
         <Segment clearing>
           <FinalForm
+            // populate activity form after managed activity with it's current values
+            initialValues={activity}
             onSubmit={handleFinalFormSubmit}
             render={({ handleSubmit }) => (
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit} loading={loading}>
                 <Field
                   component={TextInput}
                   name="title"
@@ -144,6 +130,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 />
                 <Button
                   loading={submitting}
+                  disabled={loading}
                   floated="right"
                   positive
                   type="submit"
@@ -151,6 +138,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                 />
                 <Button
                   onClick={() => history.push("/activities")}
+                  disabled={loading}
                   floated="right"
                   type="submit"
                   content="Cancel"
