@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Segment, Form, Button, Grid } from "semantic-ui-react";
 import { ActivityFormValues } from "../../../app/models/activity";
 import ActivityStore from "../../../app/stores/activityStore";
+import { v4 as uuid } from "uuid";
 import { observer } from "mobx-react-lite";
 import { RouteComponentProps } from "react-router-dom";
 import { Form as FinalForm, Field } from "react-final-form";
@@ -26,6 +27,8 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     activity: initialFormState,
     loadActivity,
     clearActivity,
+    editActivity,
+    createActivity,
   } = activityStore;
 
   const [activity, setActivity] = useState(new ActivityFormValues());
@@ -49,26 +52,19 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     // bellow statemnt stand for... copy entire object prooperties - date and time
     const { date, time, ...activity } = values;
     activity.date = dateAndTime;
-    console.log(activity);
-  };
+    if (!activity.id) {
+      let newActivity = {
+        ...activity,
+        id: uuid(),
+      };
+      createActivity(newActivity);
+    } else {
+      editActivity(activity);
 
-  // const handleSubmit = () => {
-  //   if (activity.id.length === 0) {
-  //     let newActivity = {
-  //       ...activity,
-  //       id: uuid(),
-  //     };
-  //     createActivity(newActivity).then(() =>
-  //       history.push(`/activities/${newActivity.id}`)
-  //     );
-  //   } else {
-  //     editActivity(activity).then(() =>
-  //       history.push(`/activities/${activity.id}`)
-  //     );
-  //     // this is working
-  //     // console.log('activity :', activity);
-  //   }
-  // };
+      // this is working
+      // console.log('activity :', activity);
+    }
+  };
 
   return (
     <Grid>
@@ -137,7 +133,11 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   content="Submit"
                 />
                 <Button
-                  onClick={() => history.push("/activities")}
+                  onClick={
+                    activity.id
+                      ? () => history.push(`/activities/${activity.id}`)
+                      : () => history.push("/activities")
+                  }
                   disabled={loading}
                   floated="right"
                   type="submit"

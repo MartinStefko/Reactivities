@@ -2,6 +2,7 @@ import { observable, action, computed, configure, runInAction } from "mobx";
 import { createContext, SyntheticEvent } from "react";
 import { IActivity } from "../models/activity";
 import agent from "../layout/api/agent";
+import { history } from "../..";
 
 configure({ enforceActions: "always" });
 
@@ -45,8 +46,6 @@ class ActivityStore {
       runInAction("loading activities", () =>
         activities.forEach((activity) => {
           activity.date = new Date(activity.date);
-          // we now have mapped acctivities by id
-          this.activityRegistry.set(activity.id, activity);
         })
       );
 
@@ -71,8 +70,11 @@ class ActivityStore {
         runInAction("getting activity", () => {
           activity.date = new Date(activity.date);
           this.activity = activity;
+          // we now have mapped acctivities by id
+          this.activityRegistry.set(activity.id, activity);
           this.loadingInitial = false;
         });
+
         return activity;
       } catch (error) {
         runInAction("get activity error", () => {
@@ -99,6 +101,7 @@ class ActivityStore {
         this.activityRegistry.set(activity.id, activity);
         this.submitting = false;
       });
+      history.push(`/activities/${activity.id}`);
     } catch (error) {
       runInAction(() => {
         this.submitting = false;
@@ -140,6 +143,7 @@ class ActivityStore {
         this.activity = activity;
         this.submitting = false;
       });
+      history.push(`/activities/${activity.id}`);
     } catch (error) {
       runInAction("error in editing activity", () => {
         this.submitting = false;
