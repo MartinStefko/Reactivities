@@ -3,3 +3,20 @@
 
 2.) Problem: Cannot run sqlite explorer on vscode, resulted in error [vscode-sqlite][ERROR] Unable to find a valid SQLite command. Fallback binary is not valid.
     Solution: sudo apt install sqlite3
+
+3.) Problem: Type 'FC<IProps>' is not assignable to type '"input" 
+    Solution: change interface IProps extends FieldRenderProps<string, HTMLInputElement>, FormFieldProps {}
+              to interface IProps extends FieldRenderProps<string, HTMLElement>, FormFieldProps {}
+              Same for the HTMLTextAreaElement->HTMLElement and
+
+4.) Problem: DataInput IProps incompatibility, raises error: Types of property 'id' are incompatible. Type 'string | number | undefined' is not assignable to type 'string | undefined'. Type 'number' is not assignable to type 'string | undefined'.ts(2322)
+    Solution: Add:   id?: string | undefined interface to IProps extends FieldRenderProps<Date,HTMLElement>, FormFieldProps{  id?: string | undefined}
+}
+
+5.) Problem: Input and DatePicker relative position is broken on Firefox.
+    Solution: Add bottom:9px and border:none while targeting Firefox  @-moz-document url-prefix() {
+                                                            .fix-position-moz-DateTimePicker > div > input {
+                                                                bottom: 9px !important;
+                                                                border: none !important;
+  }
+}
