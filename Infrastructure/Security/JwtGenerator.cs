@@ -12,12 +12,6 @@ namespace Infrastructure.Security
 {
     public class JwtGenerator : IJwtGenerator
     {
-        private readonly SymmetricSecurityKey _key;
-        public JwtGenerator(IConfiguration config)
-        {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
-        }
-
         public string CreateToken(AppUser user)
         {
             var claims = new List<Claim>
@@ -26,7 +20,8 @@ namespace Infrastructure.Security
             };
 
             // generate signing credentials
-            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super secret key"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

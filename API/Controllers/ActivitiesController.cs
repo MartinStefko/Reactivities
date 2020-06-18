@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Activities;
 using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -12,12 +13,11 @@ namespace API.Controllers
     public class ActivitiesController : BaseController
     {
         [HttpGet]
-
         public async Task<ActionResult<List<Activity>>> List(CancellationToken ct)
         {
             return await Mediator.Send(new List.Query(), ct);
         }
-        // Code for cancellation tokes: if user cancel the request, it will also stops
+        // Code for cancellation tokens: if user cancel the request, it will also stops
         // at the background
         // public async Task<ActionResult<List<Activity>>> List(CancellationToken ct)
         // {
@@ -26,6 +26,7 @@ namespace API.Controllers
         // create route with base controller "api/[controller]" with swith id, Details method call takes id of type Guid
         // and returns asynchronously activity with id passed to the endpoint
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Activity>> Details(Guid id)
         {
             return await Mediator.Send(new Details.Query { Id = id });
