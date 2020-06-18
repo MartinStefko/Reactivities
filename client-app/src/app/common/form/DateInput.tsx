@@ -21,6 +21,10 @@ const DateInput: React.FC<IProps> = ({
         placeholder={placeholder}
         value={input.value || null}
         onChange={input.onChange}
+        // onBlurt must be defined for datePicker to show client-validations from revalidate package
+        onBlur={input.onBlur}
+        // preventing from to typing to datePicker
+        // onKeyDown={(e) => e.preventDefault()}
         // properties aimed to fix the input- datePicker relative position
         // spreading rest of the properties into DataTimePicker
         date={date}
