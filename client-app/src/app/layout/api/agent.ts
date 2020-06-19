@@ -3,6 +3,7 @@ import { IActivity } from "../../models/activity";
 // syntax bellow works because history is defined in index.tsx
 import { history } from "../../../index";
 import { toast } from "react-toastify";
+import { IUser, IUserFormValues } from "../../models/user";
 
 axios.defaults.baseURL = "http://localhost:5000/api";
 
@@ -50,6 +51,13 @@ const Activities = {
   update: (activity: IActivity) =>
     requests.put(`/activities/${activity.id}`, activity),
   delete: (id: string) => requests.del(`/activities/${id}`),
+};
+const User = {
+  current: (): Promise<IUser> => requests.get("/user"),
+  login: (user: IUserFormValues): Promise<IUser> =>
+    requests.post("/user/login", user),
+  register: (user: IUserFormValues): Promise<IUser> =>
+    requests.post("/user/register", user),
 };
 
 export default {
