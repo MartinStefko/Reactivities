@@ -1,11 +1,14 @@
-import { observable, action, computed, configure, runInAction } from "mobx";
-import { createContext, SyntheticEvent } from "react";
+import { observable, action, computed } from "mobx";
 import { IUser, IUserFormValues } from "../models/user";
 import agent from "../layout/api/agent";
-import { history } from "../..";
-import { toast } from "react-toastify";
+import { RootStore } from "./rootStore";
 
 export default class UserStore {
+  rootStore: RootStore;
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+  }
+
   @observable user: IUser | null = null;
 
   @computed get isLoggedIn() {

@@ -5,8 +5,6 @@ import { observer } from "mobx-react-lite";
 import { NavLink } from "react-router-dom";
 
 const NavBar: React.FC = () => {
-  // const activityStore = useContext(ActivityStore);
-
   return (
     <Menu fixed="top" inverted>
       <Container>
