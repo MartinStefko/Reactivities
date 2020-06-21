@@ -51,6 +51,7 @@ export default class ActivityStore {
       runInAction("loading activities", () =>
         activities.forEach((activity) => {
           activity.date = new Date(activity.date);
+          this.activityRegistry.set(activity.id, activity);
         })
       );
 
