@@ -40,6 +40,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "IsActivityHost")]
         // updates one or any number of activity parameters
         public async Task<ActionResult<Unit>> Edit(Guid id, Edit.Command command)
         {
@@ -47,6 +48,7 @@ namespace API.Controllers
             return await Mediator.Send(command);
         }
         [HttpDelete("{id}")]
+        [Authorize(Policy = "IsActivityHost")]
         // updates one or any number of activity parameters
         public async Task<ActionResult<Unit>> Delete(Guid id)
         {

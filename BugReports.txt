@@ -18,5 +18,8 @@
                                                             .fix-position-moz-DateTimePicker > div > input {
                                                                 bottom: 9px !important;
                                                                 border: none !important;
-  }
-}
+            }
+        }
+6.) Location: Reactivities/client-app/src/features/activities/dashboard/ActivityList.tsx
+    Problem: The format function at {format(group, "eeee do MMMM")} does not take parameter of type string, it has to be datetime
+    Solution: Date.parse group {format(Date.parse(group), "eeee do MMMM")}
