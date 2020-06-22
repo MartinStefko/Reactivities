@@ -13,7 +13,7 @@ namespace API.Controllers
     public class ActivitiesController : BaseController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Activity>>> List(CancellationToken ct)
+        public async Task<ActionResult<List<ActivityDto>>> List(CancellationToken ct)
         {
             return await Mediator.Send(new List.Query(), ct);
         }
@@ -27,7 +27,7 @@ namespace API.Controllers
         // and returns asynchronously activity with id passed to the endpoint
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<Activity>> Details(Guid id)
+        public async Task<ActionResult<ActivityDto>> Details(Guid id)
         {
             return await Mediator.Send(new Details.Query { Id = id });
         }
