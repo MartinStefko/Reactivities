@@ -53,7 +53,11 @@ namespace API.Controllers
             // in resolution await new Delete Command, consuming {Id=id}
             return await Mediator.Send(new Delete.Command { Id = id });
         }
-
+        [HttpPost("{id}/attend")]
+        public async Task<ActionResult<Unit>> Attend(Guid id)
+        {
+            return await Mediator.Send(new Attend.Command { Id = id });
+        }
     }
 
 }
