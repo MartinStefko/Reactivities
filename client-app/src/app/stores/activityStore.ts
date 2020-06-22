@@ -5,7 +5,7 @@ import agent from "../layout/api/agent";
 import { history } from "../..";
 import { toast } from "react-toastify";
 import { RootStore } from "./rootStore";
-import { setActivityProps } from "../common/util/util";
+import { setActivityProps, createAttendee } from "../common/util/util";
 
 export default class ActivityStore {
   rootStore: RootStore;
@@ -176,5 +176,24 @@ export default class ActivityStore {
 
   @action cancelSelectedActivity = () => {
     this.activity = null;
+  };
+
+  @action attendActivity = () => {
+    const attendee = createAttendee(this.rootStore.userStore.user!);
+    if (this.activity) {
+      this.activity.attendees.push(attendee);
+      this.activity.isGoing = true;
+      this.activityRegistry.set(this.activity.id, this.activity);
+    }
+  };
+
+  @action cancelAttendance = () => {
+    if (this.activity) {
+      this.activity.attendees = this.activity.attendees.filter(
+        (a) => a.username !== this.rootStore.userStore.user!.username
+      );
+      this.activity.isGoing = false;
+      this.activityRegistry.set(this.activity.id, this.activity);
+    }
   };
 }
