@@ -10,6 +10,7 @@ using AutoMapper;
 // using Application.Interfaces;
 using Domain;
 using FluentValidation.AspNetCore;
+using Infrastructure.Photos;
 using Infrastructure.Security;
 // using Infrastructure.Security;
 using MediatR;
@@ -89,8 +90,6 @@ namespace API
             services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
-            services.AddScoped<IJwtGenerator, JwtGenerator>();
-            services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
                  {
@@ -102,6 +101,11 @@ namespace API
                          ValidateIssuer = false
                      };
                  });
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
+            services.AddScoped<IUserAccessor, UserAccessor>();
+            //Configure quarantees access to use-secrets which has been set in the CLI
+            services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
