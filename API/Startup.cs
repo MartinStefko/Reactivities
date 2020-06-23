@@ -103,6 +103,7 @@ namespace API
                  });
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             //Configure quarantees access to use-secrets which has been set in the CLI
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
 
