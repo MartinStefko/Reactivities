@@ -23,3 +23,11 @@
 6.) Location: Reactivities/client-app/src/features/activities/dashboard/ActivityList.tsx
     Problem: The format function at {format(group, "eeee do MMMM")} does not take parameter of type string, it has to be datetime
     Solution: Date.parse group {format(Date.parse(group), "eeee do MMMM")}
+
+7.) Location: sematic-ui default 
+    Problem: width at .ui.card renders smaller than needed
+    Solution: .ui.card {
+                    width: calc(25% - 1.5em) !important;
+                    min-width: 8em !important;
+                    }
+

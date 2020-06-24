@@ -15,9 +15,9 @@ body {
   margin-top: 7em !important;
 } */
 
-.ui.card {
+/* .ui.card {
   width: auto;
-}
+} */
 
 /*home page styles*/
 
@@ -56,4 +56,9 @@ body {
     bottom: 9px !important;
     border: none !important;
   }
+}
+
+.ui.card {
+  width: calc(20% - 1.5em) !important;
+  min-width: 8em !important;
 }
