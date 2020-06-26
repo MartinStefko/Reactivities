@@ -31,3 +31,7 @@
                     min-width: 8em !important;
                     }
 
+8.) Location: client-app/package.json
+    Problem: getCroppedCanvas() call raises an type mismatch at the orginal type definition file of react-cropper version 0.10.6,
+    Solution: cd client-app -> npm install @types/react-cropper@0.10.7
+
