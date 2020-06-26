@@ -11,6 +11,9 @@ const ProfilePhotos = () => {
     isCurrentUser,
     uploadPhoto,
     uploadingPhoto,
+    setMainPhoto,
+    deletePhoto,
+    loading,
   } = rootStore.profileStore;
   const [addPhotoMode, setAddPhotoMode] = useState(false);
 
@@ -45,8 +48,19 @@ const ProfilePhotos = () => {
                     <Image src={photo.url} />
                     {isCurrentUser && (
                       <Button.Group fluid widths={2}>
-                        <Button basic positive content="Main" />
-                        <Button basic negative icon="trash" />
+                        <Button
+                          onClick={() => setMainPhoto(photo)}
+                          loading={loading}
+                          basic
+                          positive
+                          content="Main"
+                        />
+                        <Button
+                          onClick={() => deletePhoto(photo)}
+                          basic
+                          negative
+                          icon="trash"
+                        />
                       </Button.Group>
                     )}
                   </Card>
