@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200626103433_AddedCommentEntity2")]
+    partial class AddedCommentEntity2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,7 +126,7 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("ActivityId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("AuthorId")
+                    b.Property<string>("AuthtorId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Body")
@@ -137,7 +139,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AuthtorId");
 
                     b.ToTable("Comments");
                 });
@@ -349,9 +351,9 @@ namespace Persistence.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("ActivityId");
 
-                    b.HasOne("Domain.AppUser", "Author")
+                    b.HasOne("Domain.AppUser", "Authtor")
                         .WithMany()
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthtorId");
                 });
 
             modelBuilder.Entity("Domain.Photo", b =>
