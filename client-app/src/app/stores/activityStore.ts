@@ -89,14 +89,13 @@ export default class ActivityStore {
     try {
       const activities = await agent.Activities.list();
       // if mobx strict mode is configured each code outside the async-await must be called in runInAction()
-      runInAction("loading activities", () =>
+      runInAction("loading activities", () => {
         activities.forEach((activity) => {
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
-        })
-      );
-
-      this.loadingInitial = false;
+        });
+        this.loadingInitial = false;
+      });
     } catch (error) {
       runInAction("load activities error", () => {
         this.loadingInitial = false;
