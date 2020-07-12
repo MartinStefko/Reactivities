@@ -18,7 +18,7 @@ namespace Persistence.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Body = table.Column<string>(nullable: true),
-                    AuthtorId = table.Column<string>(nullable: true),
+                    AuthorId = table.Column<string>(nullable: true),
                     ActivityId = table.Column<Guid>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false)
                 },
@@ -32,8 +32,8 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Comments_AspNetUsers_AuthtorId",
-                        column: x => x.AuthtorId,
+                        name: "FK_Comments_AspNetUsers_AuthorId",
+                        column: x => x.AuthorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -45,9 +45,9 @@ namespace Persistence.Migrations
                 column: "ActivityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_AuthtorId",
+                name: "IX_Comments_AuthorId",
                 table: "Comments",
-                column: "AuthtorId");
+                column: "AuthorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -126,7 +126,7 @@ namespace Persistence.Migrations
                     b.Property<Guid?>("ActivityId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("AuthtorId")
+                    b.Property<string>("AuthorId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Body")
@@ -139,7 +139,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("AuthtorId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Comments");
                 });
@@ -351,9 +351,9 @@ namespace Persistence.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("ActivityId");
 
-                    b.HasOne("Domain.AppUser", "Authtor")
+                    b.HasOne("Domain.AppUser", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthtorId");
+                        .HasForeignKey("AuthorId");
                 });
 
             modelBuilder.Entity("Domain.Photo", b =>
