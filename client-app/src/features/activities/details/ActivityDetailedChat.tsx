@@ -6,7 +6,7 @@ import TextAreaInput from "../../../app/common/form/TextAreaInput";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 
-export const ActivityDetailedChat = () => {
+const ActivityDetailedChat = () => {
   const rootStore = useContext(RootStoreContext);
   const {
     createHubConnection,
@@ -16,6 +16,7 @@ export const ActivityDetailedChat = () => {
   } = rootStore.activityStore;
   useEffect(() => {
     createHubConnection();
+
     return () => {
       stopHubConnection();
     };

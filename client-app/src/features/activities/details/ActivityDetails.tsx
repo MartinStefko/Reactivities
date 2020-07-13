@@ -6,7 +6,7 @@ import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { ActivityDetailedInfo } from "./ActivityDetailedInfo";
 import ActivityDetailedHeader from "./ActivityDetailedHeader";
 import ActivityDetailedSidebar from "./ActivityDetailedSidebar";
-import { ActivityDetailedChat } from "./ActivityDetailedChat";
+import ActivityDetailedChat from "./ActivityDetailedChat";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 
 // if we want to pass variable e.g. id to the route Link, in TS we must specify the interface and <RouteComponentProps<DetailParams>>

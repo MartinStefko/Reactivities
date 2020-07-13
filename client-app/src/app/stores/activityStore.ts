@@ -54,6 +54,7 @@ export default class ActivityStore {
   @action addComment = async (values: any) => {
     values.activityId = this.activity!.id;
     try {
+      // without axios-> invoking method on the server
       await this.hubConnection!.invoke("SendComment", values);
     } catch (error) {
       console.log(error);
@@ -126,7 +127,6 @@ export default class ActivityStore {
         runInAction("get activity error", () => {
           this.loadingInitial = false;
         });
-        console.log(error);
       }
     }
   };
@@ -148,6 +148,7 @@ export default class ActivityStore {
       let attendees = [];
       attendees.push(attendee);
       activity.attendees = attendees;
+      activity.comments = [];
       attendee.isHost = true;
       runInAction(() => {
         this.activityRegistry.set(activity.id, activity);

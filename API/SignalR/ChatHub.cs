@@ -1,8 +1,7 @@
-
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Application.Activities;
+using Application.Comments;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 
@@ -22,6 +21,7 @@ namespace API.SignalR
             command.Username = username;
             var comment = await _mediator.Send(command);
             await Clients.All.SendAsync("ReceiveComment", comment);
+
         }
     }
 }

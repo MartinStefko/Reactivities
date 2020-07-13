@@ -51,6 +51,7 @@ namespace Application.Comments
                     Body = request.Body,
                     CreatedAt = DateTime.Now
                 };
+                activity.Comments.Add(comment);
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return _mapper.Map<CommentDto>(comment);
                 throw new Exception("Problem saving changes");
