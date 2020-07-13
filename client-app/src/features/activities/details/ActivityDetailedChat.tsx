@@ -1,10 +1,11 @@
 import React, { Fragment, useContext, useEffect } from "react";
-import { Segment, Header, Comment, Form, Button } from "semantic-ui-react";
+import { Segment, Header, Form, Button, Comment } from "semantic-ui-react";
 import { RootStoreContext } from "../../../app/stores/rootStore";
 import { Form as FinalForm, Field } from "react-final-form";
-import TextAreaInput from "../../../app/common/form/TextAreaInput";
 import { Link } from "react-router-dom";
+import TextAreaInput from "../../../app/common/form/TextAreaInput";
 import { observer } from "mobx-react-lite";
+import { formatDistance } from "date-fns";
 
 const ActivityDetailedChat = () => {
   const rootStore = useContext(RootStoreContext);
@@ -14,13 +15,14 @@ const ActivityDetailedChat = () => {
     addComment,
     activity,
   } = rootStore.activityStore;
-  useEffect(() => {
-    createHubConnection();
 
+  useEffect(() => {
+    createHubConnection(activity!.id);
     return () => {
       stopHubConnection();
     };
-  }, [createHubConnection, stopHubConnection]);
+  }, [createHubConnection, stopHubConnection, activity]);
+
   return (
     <Fragment>
       <Segment
@@ -44,7 +46,9 @@ const ActivityDetailedChat = () => {
                     {comment.displayName}
                   </Comment.Author>
                   <Comment.Metadata>
-                    <div>{comment.createdAt}</div>
+                    <div>
+                      {formatDistance(new Date(comment.createdAt), new Date())}
+                    </div>
                   </Comment.Metadata>
                   <Comment.Text>{comment.body}</Comment.Text>
                 </Comment.Content>
