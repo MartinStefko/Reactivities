@@ -7,7 +7,7 @@ import { IUser, IUserFormValues } from "../../models/user";
 import { IProfile, IPhoto } from "../../models/profile";
 // import { url } from "inspector";
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use(
   (config) => {
@@ -50,6 +50,7 @@ const sleep = (ms: number) => (response: AxiosResponse) =>
   );
 
 const requests = {
+  // remove sleep when the app is ready to go to production
   get: (url: string) => axios.get(url).then(sleep(1000)).then(responseBody),
   post: (url: string, body: {}) =>
     axios.post(url, body).then(sleep(1000)).then(responseBody),

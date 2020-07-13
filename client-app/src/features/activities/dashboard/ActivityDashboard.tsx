@@ -5,6 +5,7 @@ import ActivityList from "./ActivityList";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+// import ActivityListItemPlaceholder from "./ActivityListItemPlaceholder";
 
 const ActivityDashboard: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
@@ -22,6 +23,8 @@ const ActivityDashboard: React.FC = () => {
   return (
     <Grid>
       <Grid.Column width={10}>
+        {/* (loadingInitial? <ActivityListItemPlaceholder />
+        :) */}
         <ActivityList />
       </Grid.Column>
       <h2>Activity filters</h2>
