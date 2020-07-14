@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from "axios";
-import { IActivity } from "../../models/activity";
+import { IActivity } from "../models/activity";
 // syntax bellow works because history is defined in index.tsx
-import { history } from "../../../index";
+import { history } from "../../index";
 import { toast } from "react-toastify";
-import { IUser, IUserFormValues } from "../../models/user";
-import { IProfile, IPhoto } from "../../models/profile";
+import { IUser, IUserFormValues } from "../models/user";
+import { IProfile, IPhoto } from "../models/profile";
 // import { url } from "inspector";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -93,6 +93,13 @@ const Profiles = {
     requests.postForm(`/photos`, photo),
   setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
   deletePhoto: (id: string) => requests.del(`/photos/${id}`),
+  updateProfile: (profile: Partial<IProfile>) =>
+    requests.put(`/profiles`, profile),
+  follow: (username: string) =>
+    requests.post(`/profiles/${username}/follow`, {}),
+  unfollow: (username: string) => requests.del(`/profiles/${username}/follow`),
+  listFollowings: (username: string, predicate: string) =>
+    requests.get(`/profiles/${username}/follow?predicate=${predicate}`),
 };
 
 export default {

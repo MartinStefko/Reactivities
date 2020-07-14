@@ -1,7 +1,7 @@
 import { observable, action, computed, runInAction } from "mobx";
 import { SyntheticEvent } from "react";
 import { IActivity } from "../models/activity";
-import agent from "../layout/api/agent";
+import agent from "../api/agent";
 import { history } from "../..";
 import { toast } from "react-toastify";
 import { RootStore } from "./rootStore";

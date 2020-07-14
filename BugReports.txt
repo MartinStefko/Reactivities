@@ -35,3 +35,6 @@
     Problem: getCroppedCanvas() call raises an type mismatch at the orginal type definition file of react-cropper version 0.10.6,
     Solution: cd client-app -> npm install @types/react-cropper@0.10.7
 
+9.) Location: client-app/src/app/stores/profileStore.ts
+    Problem: loadProfile fais when clicking on MyProfile and sometimes also when clicking on another user profileStore
+    Solution: ADD
