@@ -10,6 +10,7 @@ Ubuntu/Debian
 
 ```sh
 sudo apt update
+https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.0.103-linux-x64-binaries
 mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-3.0.101-linux-x64.tar.gz -C $HOME/dotnet
 export DOTNET_ROOT=$HOME/dotnet
 export PATH=$PATH:$HOME/dotnet
