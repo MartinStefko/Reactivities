@@ -16,11 +16,11 @@ export DOTNET_ROOT=$HOME/dotnet
 export PATH=$PATH:$HOME/dotnet
 nano ~/.bashrc
 export PATH=$PATH:$HOME/dotnet
-/At the end of the files add
+# At the end of the files add
 export DOTNET_ROOT=$HOME/dotnet
 nano ~/.bash_profile
 export PATH=$PATH:$HOME/dotnet
-/At the end of the files add
+# At the end of the files add
 export DOTNET_ROOT=$HOME/dotnet
 cd <Path to Reactivities folder>
 cd API
