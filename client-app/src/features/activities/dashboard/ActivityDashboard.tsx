@@ -1,15 +1,31 @@
-import React, { useEffect, useContext } from "react";
-import { Grid } from "semantic-ui-react";
+import React, { useEffect, useContext, useState } from "react";
+import { Grid, Loader } from "semantic-ui-react";
 import ActivityList from "./ActivityList";
-
+import InfiniteScroll from "react-infinite-scroller";
 import { observer } from "mobx-react-lite";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { RootStoreContext } from "../../../app/stores/rootStore";
+import ActivityFilters from "./ActivityFilters";
+
 // import ActivityListItemPlaceholder from "./ActivityListItemPlaceholder";
 
 const ActivityDashboard: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loadActivities, loadingInitial } = rootStore.activityStore;
+  const {
+    loadActivities,
+    loadingInitial,
+    setPage,
+    page,
+    totalPages,
+  } = rootStore.activityStore;
+
+  const [loadingNext, setLoadingNext] = useState(false);
+
+  const handleGetNext = () => {
+    setLoadingNext(true);
+    setPage(page + 1);
+    loadActivities().then(() => setLoadingNext(false));
+  };
 
   // useEffect is 3 lifecycle hooks in one
   useEffect(() => {
@@ -17,7 +33,7 @@ const ActivityDashboard: React.FC = () => {
     // to make useEffect to know about activityStore it has to be passed into seond argument (as bellow)
   }, [loadActivities]);
 
-  if (loadingInitial)
+  if (loadingInitial && page === 0)
     return <LoadingComponent content="Loading activities..." />;
 
   return (
@@ -25,10 +41,21 @@ const ActivityDashboard: React.FC = () => {
       <Grid.Column width={10}>
         {/* (loadingInitial? <ActivityListItemPlaceholder />
         :) */}
-        <ActivityList />
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={handleGetNext}
+          hasMore={!loadingNext && page + 1 < totalPages}
+          initialLoad={false}
+        >
+          <ActivityList />
+        </InfiniteScroll>
       </Grid.Column>
-      <h2>Activity filters</h2>
-      <Grid.Column width={6}></Grid.Column>
+      <Grid.Column width={6}>
+        <ActivityFilters />
+      </Grid.Column>
+      <Grid.Column width={10}>
+        <Loader active={loadingNext} />
+      </Grid.Column>
     </Grid>
   );
 };

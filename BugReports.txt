@@ -38,3 +38,8 @@
 9.) Location: client-app/src/app/stores/profileStore.ts
     Problem: loadProfile fais when clicking on MyProfile and sometimes also when clicking on another user profileStore
     Solution: ADD
+
+10.) Location: bash
+     Problem: cannot install types for react-inifite scroller with npm install @types/react-intinite-scroller
+     Solution: npm install --save @types/react-infinite-scroller
+

@@ -11,6 +11,10 @@ export interface IActivity {
   attendees: IAttendee[];
   comments: IComment[];
 }
+export interface IActivitiesEnvelope {
+  activities: IActivity[];
+  activityCount: number;
+}
 
 export interface IComment {
   id: string;
