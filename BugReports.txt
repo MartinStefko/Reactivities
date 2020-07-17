@@ -43,3 +43,13 @@
      Problem: cannot install types for react-inifite scroller with npm install @types/react-intinite-scroller
      Solution: npm install --save @types/react-infinite-scroller
 
+11.) Location: client-app/src/app/api/agent.ts
+     Problem: after jwt axpiration at server, the messaage transmitted to client does not allow strict checking because of dynamic timestamp
+     Solution:   if (
+                    status === 401 &&
+                    headers["www-authenticate"]
+                    .includes("The token expired")
+                    ) {...}
+
+
+

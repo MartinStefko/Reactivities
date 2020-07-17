@@ -19,6 +19,7 @@ import { RootStoreContext } from "../stores/rootStore";
 import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modals/ModalContainer";
 import ProfilePage from "../../features/profiles/ProfilePage";
+import PrivateRoute from "./PrivateRoute";
 
 // taking the location object from RouteComponentProps, extracting key, so each component will get
 // the unique location key and everyime component re-renders, it will not modify existing object but it will create a new one
@@ -52,14 +53,24 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
             <Container style={{ marginTop: "7em" }}>
               {/* switch ensures that every component will be rendered exclusively once at the time*/}
               <Switch>
-                <Route exact path="/activities" component={ActivityDashboard} />
-                <Route path="/activities/:id" component={ActivityDetails} />
-                <Route
+                <PrivateRoute
+                  exact
+                  path="/activities"
+                  component={ActivityDashboard}
+                />
+                <PrivateRoute
+                  path="/activities/:id"
+                  component={ActivityDetails}
+                />
+                <PrivateRoute
                   key={location.key}
                   path={["/createActivity", "/manage/:id"]}
                   component={ActivityForm}
                 />
-                <Route path="/profile/:username" component={ProfilePage} />
+                <PrivateRoute
+                  path="/profile/:username"
+                  component={ProfilePage}
+                />
                 <Route path="/login" component={LoginForm} />
                 <Route component={NotFound} />
               </Switch>
